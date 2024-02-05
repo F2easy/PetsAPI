@@ -25,25 +25,38 @@ const startPets = [
 // then, insert all the starter pets from the startPets array
 // then, most importantly CLOSE the connection to the db
 
-
 mongoose.connect(db, {useNewUrlParser: true})
-  .then(() => {
-    pet.deleteMany({ owner: null })
-    .then(deletedPets => {
-      console.log('deleted pets in seed script: ', deletedPets)
+    .then(() => {
+        Pet.deleteMany({ owner: null })
+            .then(deletedPets => {
+                console.log('deleted pets in seed script: ', deletedPets)
 
-      pet.create(startPets)
-        .then(newPets => {
-          console.log('new pets added to db: \n', newPets)
-        })
+                Pet.create(startPets)
+                    .then(newPets => {
+                        console.log('new pets added to db: \n', newPets)
+                        // VERY IMPORTANT
+                        mongoose.connection.close() 
+                    })
+                    .catch(error => {
+                        console.log('an error has occurred: \n', error)
+        
+                        // VERY IMPORTANT
+                        mongoose.connection.close() 
+                    })
+            })
+            .catch(error => {
+                console.log('an error has occurred: \n', error)
+
+                // VERY IMPORTANT
+                mongoose.connection.close() 
+            })
     })
     .catch(error => {
-      console.log('an erroro has occured: \n', error)
+        console.log('an error has occurred: \n', error)
 
-        //VERY IMPORTANT
-        mongoose.connection.close()
+        // VERY IMPORTANT
+        mongoose.connection.close() 
     })
-  })
 
 
 
