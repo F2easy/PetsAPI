@@ -5,10 +5,18 @@
 const mongooseBaseName = 'express-auth-template'
 
 // create the mongodb uri for development and test
+// this code is for  a locla instance of mongodb
+// const database = {
+// 	development: `mongodb://localhost/${mongooseBaseName}-development`,
+// 	test: `mongodb://localhost/${mongooseBaseName}-test`,
+// }
+
+
 const database = {
-	development: `mongodb://localhost/${mongooseBaseName}-development`,
-	test: `mongodb://localhost/${mongooseBaseName}-test`,
+	development: process.env,
+	test: process.env.MONGODB_URI
 }
+
 
 // Identify if development environment is test or development
 // select DB based on whether a test file was executed before `server.js`
